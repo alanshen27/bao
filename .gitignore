@@ -1,0 +1,25 @@
+node_modules/
+dist/
+build/
+*.tsbuildinfo
+
+# Bao runtime data (local-first storage)
+.bao/
+
+# Prisma generated client
+**/.prisma/
+prisma/generated/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Env
+.env.local
+.env.*.local
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.swp

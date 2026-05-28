@@ -1,0 +1,35 @@
+{
+  "name": "bao",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Bao — local agent kitchen. A local-first AI agent workspace.",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -n gateway,web -c yellow,magenta \"npm run dev:gateway\" \"npm run dev:web\"",
+    "dev:gateway": "tsx apps/gateway/src/index.ts",
+    "dev:web": "npm run dev --workspace apps/web",
+    "build": "npm run build --workspace packages/shared && npm run build --workspace apps/gateway && npm run build --workspace apps/web",
+    "db:generate": "prisma generate",
+    "db:push": "mkdir -p .bao && prisma db push --skip-generate",
+    "db:setup": "npm run db:generate && npm run db:push",
+    "typecheck": "npm run typecheck --workspace packages/shared && npm run typecheck --workspace apps/gateway && npm run typecheck --workspace apps/web"
+  },
+  "prisma": {
+    "schema": "prisma/schema.prisma"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "prisma": "^5.22.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

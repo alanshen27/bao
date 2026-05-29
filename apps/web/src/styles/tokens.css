@@ -1,0 +1,20 @@
+:root {
+  --bao-bg: #fff8ed;
+  --bao-card: #fffdf8;
+  --bao-card-soft: #fff1dc;
+  --bao-border: #eadcc8;
+  --bao-text: #2d2118;
+  --bao-muted: #7b6654;
+
+  --bao-bamboo: #d8b98c;
+  --bao-soy: #5a3825;
+  --bao-scallion: #5f8f62;
+  --bao-chili: #e56a3a;
+  --bao-sesame: #c8a96a;
+
+  --bao-success: #5f8f62;
+  --bao-warning: #e6a13a;
+  --bao-danger: #c94f3d;
+
+  --bao-ring: #e56a3a;
+}

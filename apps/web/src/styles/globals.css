@@ -1,0 +1,55 @@
+@import "./tokens.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--bao-bg);
+    color: var(--bao-text);
+    font-family: "Inter", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--bao-ring);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .bao-card {
+    @apply rounded-2xl border border-bao-border bg-bao-card shadow-bao;
+  }
+
+  .bao-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: var(--bao-bamboo) transparent;
+  }
+  .bao-scroll::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .bao-scroll::-webkit-scrollbar-thumb {
+    background-color: var(--bao-bamboo);
+    border-radius: 9999px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

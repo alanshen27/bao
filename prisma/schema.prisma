@@ -1,0 +1,86 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Session {
+  id         String   @id @default(uuid())
+  code       String   @unique
+  title      String?
+  kind       String // "chat" | "agent" | "subagent"
+  status     String // "idle" | "running" | "completed" | "failed" | "paused"
+  providerId String
+  modelId    String?
+  parentId   String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  parent   Session?  @relation("SessionTree", fields: [parentId], references: [id])
+  children Session[] @relation("SessionTree")
+
+  messages  Message[]
+  events    Event[]
+  usages    Usage[]
+  toolCalls ToolCall[]
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  sessionId String
+  role      String // "system" | "user" | "assistant" | "tool"
+  content   String
+  createdAt DateTime @default(now())
+
+  session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+}
+
+model Event {
+  id        String   @id @default(uuid())
+  sessionId String
+  type      String
+  message   String
+  data      String? // JSON-encoded payload
+  createdAt DateTime @default(now())
+
+  session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+}
+
+model Usage {
+  id               String   @id @default(uuid())
+  sessionId        String
+  providerId       String
+  modelId          String?
+  inputTokens      Int      @default(0)
+  outputTokens     Int      @default(0)
+  totalTokens      Int      @default(0)
+  estimatedCostUsd Float    @default(0)
+  createdAt        DateTime @default(now())
+
+  session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+}
+
+model ToolCall {
+  id          String    @id @default(uuid())
+  sessionId   String
+  toolName    String
+  inputJson   String // JSON-encoded input
+  outputJson  String? // JSON-encoded output
+  status      String // "running" | "completed" | "failed"
+  error       String?
+  createdAt   DateTime  @default(now())
+  completedAt DateTime?
+
+  session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+}
+
+model Memory {
+  id        String   @id @default(uuid())
+  content   String
+  tagsJson  String? // JSON-encoded string[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
